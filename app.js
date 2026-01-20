@@ -75,7 +75,7 @@ async function initialize() {
 
   console.log('⚡️ He Is Coming Bot started!');
   console.log(`📢 Notification channel: ${NOTIFY_CHANNEL}`);
-  console.log(`⏱️  Check interval: ${CHECK_INTERVAL / 1000} seconds`);
+  console.log(`⏱️ Check interval: ${CHECK_INTERVAL / 1000} seconds`);
 
   // Initialize presence status and load user names
   for (const userId of WATCH_USER_IDS) {
