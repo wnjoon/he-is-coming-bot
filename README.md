@@ -1,31 +1,31 @@
 # He Is Coming Bot
 
-특정 사용자가 Slack에 접속하면 알림을 보내주는 봇입니다.
+A Slack bot that notifies you when a specific user comes online.
 
-## 설정 방법
+## Setup
 
-### 1. Slack App 생성
+### 1. Create a Slack App
 
-1. [Slack API](https://api.slack.com/apps) 접속
-2. **Create New App** > **From scratch**
-3. App 이름 입력 (예: "He Is Coming Bot"), 워크스페이스 선택
+1. Go to [Slack API](https://api.slack.com/apps)
+2. Click **Create New App** > **From scratch**
+3. Enter app name (e.g., "He Is Coming Bot") and select your workspace
 
-### 2. OAuth & Permissions 설정
+### 2. Configure OAuth & Permissions
 
-1. 좌측 메뉴 **Features** > **OAuth & Permissions**
-2. **Scopes** > **Bot Token Scopes** 에서 추가:
-   - `users:read` - 사용자 정보 조회
-   - `chat:write` - 메시지 전송
-3. 페이지 상단 **Install to Workspace** 클릭
-4. 생성된 `xoxb-` 토큰 복사 → `.env`의 `SLACK_BOT_TOKEN`에 저장
+1. Go to **Features** > **OAuth & Permissions** in the left menu
+2. Under **Scopes** > **Bot Token Scopes**, add:
+   - `users:read` - View user information
+   - `chat:write` - Send messages
+3. Click **Install to Workspace** at the top
+4. Copy the `xoxb-` token and save it to `SLACK_BOT_TOKEN` in `.env`
 
-### 3. 환경변수 설정
+### 3. Set Environment Variables
 
 ```bash
 cp .env.example .env
 ```
 
-`.env` 파일 수정:
+Edit the `.env` file:
 
 ```env
 SLACK_BOT_TOKEN=xoxb-your-bot-token
@@ -33,42 +33,42 @@ WATCH_USER_IDS=U01234567
 NOTIFY_CHANNEL=C01234567
 ```
 
-### 4. 사용자 ID / 채널 ID 찾는 법
+### 4. How to Find User ID / Channel ID
 
-**사용자 ID:**
-1. Slack에서 해당 사용자 프로필 클릭
-2. 점 세 개 메뉴 (**⋮**) 클릭
-3. **멤버 ID 복사** 선택
+**User ID:**
+1. Click on the user's profile in Slack
+2. Click the three-dot menu (**⋮**)
+3. Select **Copy member ID**
 
-**채널 ID:**
-1. 채널 이름 클릭 (상단)
-2. 스크롤 내려서 채널 ID 확인 (C로 시작)
+**Channel ID:**
+1. Click on the channel name (at the top)
+2. Scroll down to find the Channel ID (starts with C)
 
-**DM으로 받고 싶으면:** `NOTIFY_CHANNEL`에 본인 사용자 ID 입력
+**To receive DMs:** Set `NOTIFY_CHANNEL` to your own user ID
 
-### 5. 봇을 채널에 초대
+### 5. Invite the Bot to a Channel
 
-알림을 받을 채널에서:
+In the channel where you want to receive notifications:
 ```
 /invite @He Is Coming Bot
 ```
 
-## 실행
+## Running
 
 ```bash
-# 의존성 설치
+# Install dependencies
 npm install
 
-# 실행
+# Run
 npm start
 
-# 개발 모드 (파일 변경 시 자동 재시작)
+# Development mode (auto-restart on file changes)
 npm run dev
 ```
 
-## 상시 실행 (선택)
+## Keep Running (Optional)
 
-### PM2 사용
+### Using PM2
 
 ```bash
 npm install -g pm2
@@ -77,14 +77,14 @@ pm2 save
 pm2 startup
 ```
 
-## 동작 방식
+## How It Works
 
-- 30초마다 감시 대상 사용자의 상태를 체크
-- `away` → `active` 상태 변경 감지 시 알림
-- 체크 주기는 `CHECK_INTERVAL` 환경변수로 조정 가능
+- Checks target user's presence status every 30 seconds
+- Sends notification when status changes from `away` to `active`
+- Check interval can be adjusted via `CHECK_INTERVAL` environment variable
 
-## 주의사항
+## Notes
 
-- Slack 무료 플랜에서도 동작합니다
-- 봇은 계속 실행 중이어야 합니다 (서버 또는 PM2 사용 권장)
-- 첫 실행 시 이미 접속 중인 사용자는 알림이 가지 않습니다 (이후 재접속 시 알림)
+- Works with Slack free plan
+- Bot must be running continuously (use a server or PM2)
+- Users already online at startup won't trigger a notification (only subsequent logins will)
